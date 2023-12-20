@@ -1,0 +1,267 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('easyadmin/tema/DataTables-1.10.10/media/css/jquery.dataTables.css') }}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="preload hidden">
+        <div class="logo"></div>
+        <div class="loader-frame">
+            <div class="loader1" id="loader1"></div>
+            <div class="loader2" id="loader2"></div>
+        </div>
+    </div>
+    <div id="containerMostrarCentroCosto" class="container-fluid" style="display:block">
+        <div class="portlet light estilosForm">
+            <div class="portlet-title">
+                <div class="caption font-blue-dark">
+                    <i class="icon-settings font-blue-dark"></i>
+                    <span class="caption-subject bold uppercase">{{ nombreNomneclador|upper }}</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div style="padding-top: 10px">
+                    <div class="portlet box color-uno">
+                        <div class="portlet-title" style="background-color: #004C97">
+                            <div class="caption">
+                            </div>
+                            <div class="caption bold uppercase" style="float: right">
+                                <a href="#" style="text-decoration: none;color: #fff;" id="addNomenclador">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    AGREGAR
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body " style="background-color: #C3D7EE;overflow-x: auto">
+                            <table class="table table-striped table-bordered table-hover table-responsive"
+                                   id="dataNomenclador">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        Nombre
+                                    </th>
+                                    <th class="text-center">
+                                        Acciones
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for nomenclador in nomencladores %}
+                                    <tr data-id="{{ nomenclador.id }}">
+                                        <td>{{ nomenclador.nombre|upper }}</td>
+                                        <td class="text-center">
+                                            <a href="#" style="margin-top: 5px"
+                                               class="btn default btn-xs green-stripe edit" data-toggle="tooltip"
+                                               data-placement="left"
+                                               title="Modificar nomenclador">
+                                                Modificar </a>
+                                            <a href="#" style="margin-top: 5px"
+                                               class="btn default btn-xs red-stripe delete" data-toggle="tooltip"
+                                               data-placement="left"
+                                               title="Eliminar nomenclador">
+                                                Eliminar </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ include('Nomenclador/Generales/modalAddNomenclador.html.twig') }}
+        {{ include('Nomenclador/Generales/modalEditNomenclador.html.twig') }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <!-- DataTables -->
+    <script src="{{ asset('easyadmin/tema/DataTables-1.10.10/media/js/jquery.dataTables.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+
+            //Declaraciones
+            $('#dataNomenclador').DataTable();
+
+            $('#addNomenclador').on('click' , function () {
+                $('#modalAddNomenclador').modal('show');
+            });
+
+            let idNomenclador = '';
+            let nombre = '';
+            let id;
+
+            // función que carga datos en el formulario para editar
+            $('#dataNomenclador tbody').on('click', '.edit', function () {
+
+                let row = $(this).parents('tr');
+                idNomenclador = row.data('id');
+
+                {% for nomenclador in nomencladores %}
+                    id = parseInt('{{ nomenclador.id }}');
+                    if( id === idNomenclador)
+                    {
+                        $('#editNombre').val('{{ nomenclador.nombre|upper }}');
+                        nombre = '{{ nomenclador.nombre|upper }}';
+                    }
+                {% endfor %}
+                $('#modalEditNomenclador').modal('show');
+            });
+
+            $('#addGuardar').on('click',function () {
+
+                //Validaciones
+                let errores = 0;
+                $('#modalAddDivisionCentroCosto input[type=text]').each(function () {
+
+                    let name = $(this).prop('name');
+                    if($(this).val().trim() === ''){
+                        $(this).addClass('input-error');
+                        $('.'+name).removeClass('hidden');
+                        errores++;
+                    }else {
+                        $(this).removeClass('input-error');
+                        $('.'+name).addClass('hidden');
+                    }
+                });
+                if(errores !== 0) return false;
+
+                $('#modalAddNomenclador').modal('hide');
+                $(".preload").removeClass('hidden');
+
+                var mat_datos = {
+                    entidad: '{{ nombreEntidad }}',
+                    nombre: $("#addNombre").val()
+                };
+                $.ajax({
+                    type: "POST",
+                    dataType: "html",
+                    url: '{{ path("insertNomenclador") }}',
+                    data: mat_datos
+                }).done(function (data) {
+
+                    $(".preload").addClass('hidden');
+                    if(data === 'ok'){
+                        alertify.alert('<strong>El nomenclador ha sido registrado correctamente</strong>')
+                            .setHeader('<span class="glyphicon glyphicon-ok-circle" style="font-size: 20px"></span>' +
+                                '<h4 class="modal-title" style="display: inline-block; margin-left: 10px">Confirmación</h4>')
+                            .set('label','Aceptar')
+                            .set('onok', function () {
+                                $('#modalAddNomenclador input').each(function(){
+                                    $(this).val('');
+                                });
+                                window.location.href = "{{ path('listarNomencladores', {entidad:nombreEntidad}) }}";
+                            });
+                    }else{
+                        alertify.alert('<strong>'+ data +'</strong>')
+                            .setHeader('<span class="glyphicon glyphicon-ban-circle" style="font-size: 20px"></span>' +
+                                '<h4 class="modal-title" style="display: inline-block; margin-left: 10px">Error</h4>')
+                            .set('label','Aceptar')
+                    }
+                });
+
+            });
+
+            $('#editGuardar').on('click',function () {
+
+                //Validaciones
+                let errores = 0;
+                $('#modalEditNomenclador input[type=text]').each(function () {
+
+                    let name = $(this).prop('name');
+                    if($(this).val().trim() === ''){
+                        $(this).addClass('input-error');
+                        $('.'+name).removeClass('hidden');
+                        errores++;
+                    }else {
+                        $(this).removeClass('input-error');
+                        $('.'+name).addClass('hidden');
+                    }
+                });
+                if(errores !== 0) return false;
+
+                $('#modalEditNomenclador').modal('hide');
+                $(".preload").removeClass('hidden');
+
+                let mat_datos = {
+                    id : idNomenclador,
+                    entidad: '{{ nombreEntidad }}',
+                    nombre: $("#editNombre").val()
+                };
+                $.ajax({
+                    type: "POST",
+                    dataType: "html",
+                    url: '{{ path("updateNomenclador") }}',
+                    data: mat_datos
+                }).done(function (data) {
+
+                    $(".preload").addClass('hidden');
+                    if(data === 'ok'){
+                        alertify.alert('<strong>El nomenclador ha sido modificado correctamente</strong>')
+                            .setHeader('<span class="glyphicon glyphicon-ok-circle" style="font-size: 20px"></span>' +
+                                '<h4 class="modal-title" style="display: inline-block; margin-left: 10px">Confirmación</h4>')
+                            .set('label','Aceptar')
+                            .set('onok', function () {
+                                window.location.href = "{{ path('listarNomencladores', {entidad:nombreEntidad}) }}";
+                            });
+                    }else{
+                        alertify.alert('<strong>'+ data +'</strong>')
+                            .setHeader('<span class="glyphicon glyphicon-ban-circle" style="font-size: 20px"></span>' +
+                                '<h4 class="modal-title" style="display: inline-block; margin-left: 10px">Error</h4>')
+                            .set('label','Aceptar')
+                    }
+                });
+
+            });
+
+            $('#dataNomenclador tbody').on('click', '.delete', function () {
+
+                let row = $(this).parents('tr');
+
+                let mat_datos = {
+                    id : row.data('id'),
+                    entidad: '{{ nombreEntidad }}'
+                };
+
+                alertify.confirm('Basic: false').set('message', '<strong>Seguro que desea eliminar el nomenclador seleccionado</strong>').set('onok', function(){
+
+                    $(".preload").removeClass('hidden');
+
+                    $.ajax({
+                        type: "POST",
+                        dataType: "html",
+                        url: '{{ path("deleteNomenclador") }}',
+                        data: mat_datos
+                    }).done(function (data) {
+
+                        $(".preload").addClass('hidden');
+                        if(data === 'ok'){
+                            alertify.alert('<strong>El nomenclador ha sido eliminado correctamente.</strong>')
+                                .setHeader('<span class="glyphicon glyphicon-ok-circle" style="font-size: 20px"></span>' +
+                                    '<h4 class="modal-title" style="display: inline-block; margin-left: 10px">Confirmación</h4>')
+                                .set('label','Aceptar')
+                                .set('onok', function(){
+                                    row.fadeOut();
+                                });
+                        }else {
+                            alertify.alert('<strong>'+data+'</strong>')
+                                .setHeader('<span class="glyphicon glyphicon-ok-circle" style="font-size: 20px"></span>' +
+                                    '<h4 class="modal-title" style="display: inline-block; margin-left: 10px">Confirmación</h4>')
+                                .set('label','Aceptar')
+                        }
+                    });
+                });
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
+
+

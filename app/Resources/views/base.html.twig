@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}SAGIC 1.0{% endblock %}</title>
+    {% block stylesheets %}
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
+        <link href="{{ asset('easyadmin/plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('easyadmin/plugins/simple-line-icons/simple-line-icons.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('easyadmin/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('easyadmin/plugins/uniform/css/uniform.default.css') }}" rel="stylesheet">
+        <link href="{{ asset('easyadmin/plugins/bootstrap-switch/css/bootstrap-switch.css') }}" rel="stylesheet">
+        <link href="{{ asset('easyadmin/tema/layout/css/themes/darkblue.css') }}" rel="stylesheet">
+        <!-- END GLOBAL MANDATORY STYLES -->
+        <!-- BEGIN THEME STYLES -->
+        <link href="{{ asset('easyadmin/global/css/components.css') }}" rel="stylesheet">
+        <link href="{{ asset('easyadmin/global/css/plugins.css') }}" rel="stylesheet">
+        <link href="{{ asset('easyadmin/tema/layout/css/layout.css') }}" rel="stylesheet">
+
+        <!-- END THEME STYLES -->
+        <link href="{{ asset('easyadmin/plugins/Alertify/css/alertify.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('easyadmin/plugins/Alertify/css/themes/default.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('easyadmin/global/css/estilos.css') }}" rel="stylesheet">
+    {% endblock %}
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/logo1.png') }}"/>
+</head>
+<body class="page-header-fixed page-quick-sidebar-over-content page-full-width">
+{% block nav %}
+    <div class="page-header -i navbar navbar-fixed-top" style="color: #004C97">
+        <!-- BEGIN HEADER INNER -->
+        <div class="page-header-inner">
+            <!-- BEGIN LOGO -->
+            <div class="page-logo" style="margin-left: 1%">
+                <img style="width: 81px" src="{{ asset('assets/img/logo1.png') }}"
+                     alt="SAGIC Logo"/>
+            </div>
+            <!-- END LOGO -->
+            <!-- BEGIN HORIZANTAL MENU -->
+            <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
+            <!-- DOC: This is desktop version of the horizontal menu. The mobile version is defined(duplicated) sidebar menu below. So the horizontal menu has 2 seperate versions -->
+            <div class="hor-menu hidden-sm hidden-xs" style="margin-left: 10%">
+                <ul class="nav navbar-nav">
+                    <!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the horizontal opening on mouse hover -->
+                    <li class="classic-menu-dropdown">
+                        <a data-toggle="dropdown" href="javascript:" data-hover="megamenu-dropdown"
+                           data-close-others="true">
+                            Persona <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-left">
+                            <li class="dropdown-submenu">
+                                <a href="javascript:"> Caracteristicas </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Color de la piel</a></li>
+                                    <li><a href="#">Color de los ojos</a></li>
+                                    <li><a href="#">Color del pelo</a></li>
+                                    <li><a href="#">Grupo sanguíneo</a></li>
+                                    <li><a href="#">Limitación física</a></li>
+                                    <li><a href="#">Estado civil</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:"> Procedencia </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorFacultad'}) }}">Facultad</a>
+                                    </li>
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorCentro'}) }}">Centro</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorDepartamento'}) }}">Departamento</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorProcedenciaSocial'}) }}">Procedencia
+                                            social</a></li>
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorProvincia'}) }}">Provincia</a>
+                                    </li>
+                                    <li><a href="#">Municipio</a></li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorConsejoPopular'}) }}">Consejo
+                                            popular</a></li>
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorCiudadania'}) }}">Ciudadanía</a>
+                                    </li>
+                                    <li><a href="#">Grupo básico de trabajo</a></li>
+                                    <li><a href="#">Carrera</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:"> Preparación </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Nivel escolar</a></li>
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorProfesion'}) }}">Profesión</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorEspecialidad'}) }}">Especialidad</a>
+                                    </li>
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorAsignatura'}) }}">Asignatura</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorCategoriaCientifica'}) }}">Categoría
+                                            científica</a></li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorCategoriaDocente'}) }}">Categoría
+                                            docente</a></li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorGradoCientifico'}) }}">Grado
+                                            científico</a></li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorCurso'}) }}">Curso</a>
+                                    </li>
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorMaestria'}) }}">Maestría</a>
+                                    </li>
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorIdioma'}) }}">Idioma</a>
+                                    </li>
+                                    <li><a href="#">Preparación militar</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a href="javascript:"> Ocupaciones </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorMilitancia'}) }}">Militancia</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorCargo'}) }}">Cargo</a>
+                                    </li>
+                                    <li><a href="#">Condecoración</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="classic-menu-dropdown">
+                        <a data-toggle="dropdown" href="javascript:" data-hover="megamenu-dropdown"
+                           data-close-others="true">
+                            Evaluación <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-left">
+                            <li><a href="#">Evaluación profesoral</a></li>
+                            <li>
+                                <a href="{{ path('listarNomencladores', {entidad:'NomencladorMotivoNoEvaluacionProfesoral'}) }}">Resultado
+                                    de la evaluación profesoral</a></li>
+                            <li><a href="#">Motivos de la no evaluación</a></li>
+                        </ul>
+                    </li>
+                    <li class="classic-menu-dropdown">
+                        <a data-toggle="dropdown" href="javascript:" data-hover="megamenu-dropdown"
+                           data-close-others="true">
+                            Cuadros <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-left">
+                            <li><a href="#">Administración pública</a></li>
+                            <li><a href="#">Tipo de medida disciplinaria</a></li>
+                            <li><a href="#">Medida disciplinaria</a></li>
+                            <li><a href="#">Infracción de la disciplina</a></li>
+                            <li><a href="#">Tipo de reclamación</a></li>
+                            <li><a href="#">Resultado de la reclamación</a></li>
+                            <li><a href="#">Tipo de movimiento</a></li>
+                            <li><a href="#">Movimiento</a></li>
+                        </ul>
+                    </li>
+                    <li class="classic-menu-dropdown">
+                        <a data-toggle="dropdown" href="javascript:" data-hover="megamenu-dropdown"
+                           data-close-others="true">
+                            Administración <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-left">
+                            <li><a href="{{ path('gestionarUsuarios') }}">Usuarios</a></li>
+                            <li><a href="#">Trazas</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- END HORIZANTAL MENU -->
+            <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+            <a href="javascript:" class="menu-toggler responsive-toggler" data-toggle="collapse"
+               data-target=".navbar-collapse">
+            </a>
+            <!-- END RESPONSIVE MENU TOGGLER -->
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+                    <li class="dropdown dropdown-user">
+                        <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                           data-close-others="true">
+                            <span class="username username-hide-on-mobile">Bienvenido: </span>
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-default">
+                            <li>
+                                <a href="#">
+                                    <i class="icon-key"></i>Cambiar Contraseña</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- END USER LOGIN DROPDOWN -->
+                    <!-- BEGIN QUICK SIDEBAR TOGGLER -->
+                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                    <li class="dropdown dropdown-quick-sidebar-toggler">
+                        <a href="{{ path('homepage') }}" class="dropdown-toggle">
+                            <i class="icon-logout"></i>
+                        </a>
+                    </li>
+                    <!-- END QUICK SIDEBAR TOGGLER -->
+                </ul>
+            </div>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+        <!-- END HEADER INNER -->
+    </div>
+    <div class="clearfix">
+    </div>
+{% endblock %}
+
+<!-- BEGIN CONTENT -->
+<div class="page-container">
+    {% block responsiveNav %}
+        <!-- BEGIN SIDEBAR -->
+        <div class="page-sidebar-wrapper">
+            <!-- BEGIN HORIZONTAL RESPONSIVE MENU -->
+            <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+            <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+            <div class="page-sidebar navbar-collapse collapse">
+                <ul class="page-sidebar-menu" data-slide-speed="200" data-auto-scroll="true">
+                    <li>
+                        <a>
+                            Persona <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="javascript:"> Caracteristicas <span class="arrow"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li><a href="#">Color de la piel</a></li>
+                                    <li><a href="#">Color de los ojos</a></li>
+                                    <li><a href="#">Color del pelo</a></li>
+                                    <li><a href="#">Grupo sanguíneo</a></li>
+                                    <li><a href="#">Limitación física</a></li>
+                                    <li><a href="#">Estado civil</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:"> Procedencia <span class="arrow"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorFacultad'}) }}">Facultad</a>
+                                    </li>
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorCentro'}) }}">Centro</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorDepartamento'}) }}">Departamento</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorProcedenciaSocial'}) }}">Procedencia
+                                            social</a></li>
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorProvincia'}) }}">Provincia</a>
+                                    </li>
+                                    <li><a href="#">Municipio</a></li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorConsejoPopular'}) }}">Consejo
+                                            popular</a></li>
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorCiudadania'}) }}">Ciudadanía</a>
+                                    </li>
+                                    <li><a href="#">Grupo básico de trabajo</a></li>
+                                    <li><a href="#">Carrera</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:">Preparación <span class="arrow"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li><a href="#">Nivel escolar</a></li>
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorProfesion'}) }}">Profesión</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorEspecialidad'}) }}">Especialidad</a>
+                                    </li>
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorAsignatura'}) }}">Asignatura</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorCategoriaCientifica'}) }}">Categoría
+                                            científica</a></li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorCategoriaDocente'}) }}">Categoría
+                                            docente</a></li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorGradoCientifico'}) }}">Grado
+                                            científico</a></li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorCurso'}) }}">Curso</a>
+                                    </li>
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorMaestria'}) }}">Maestría</a>
+                                    </li>
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorIdioma'}) }}">Idioma</a>
+                                    </li>
+                                    <li><a href="#">Preparación militar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:"> Ocupaciones <span class="arrow"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{ path('listarNomencladores', {entidad:'NomencladorMilitancia'}) }}">Militancia</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('listarNomencladores', {entidad:'NomencladorCargo'}) }}">Cargo</a>
+                                    </li>
+                                    <li><a href="#">Condecoración</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a>
+                            Evaluación <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Evaluación profesoral</a></li>
+                            <li><a href="#">Resultado de la evaluación profesoral</a></li>
+                            <li>
+                                <a href="{{ path('listarNomencladores', {entidad:'NomencladorMotivoNoEvaluacionProfesoral'}) }}">Motivos
+                                    de la no evaluación</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a>
+                            Cuadros <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Administración pública</a></li>
+                            <li><a href="#">Tipo de medida disciplinaria</a></li>
+                            <li><a href="#">Medida disciplinaria</a></li>
+                            <li><a href="#">Infracción de la disciplina</a></li>
+                            <li><a href="#">Tipo de reclamación</a></li>
+                            <li><a href="#">Resultado de la reclamación</a></li>
+                            <li><a href="#">Tipo de movimiento</a></li>
+                            <li><a href="#">Movimiento</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- END HORIZONTAL RESPONSIVE MENU -->
+        <!-- END SIDEBAR -->
+    {% endblock %}
+    <div class="page-content">
+        {% block info %}{% endblock %}
+        {% block body %}{% endblock %}
+    </div>
+</div>
+
+<!-- END CONTENT -->
+
+{% block footer %}
+    <!-- BEGIN FOOTER -->
+    <div class="page-footer">
+        <div class="page-footer-inner col-lg-offset-5  col-md-offset-3  col-sm-offset-3">
+            <strong>Sistema Automatizado de Gestión Integral de Cuadros de la Universidad de Ciencias Médicas de La
+                Habana</strong>
+            <br>Desarrollado por <a href="#">CEDISAP</a>
+            <br>Copyright 2023 &copy; Todos los derechos reservados
+        </div>
+        <div class="scroll-to-top">
+            <i class="icon-arrow-up"></i>
+        </div>
+    </div>
+    <!-- END FOOTER -->
+{% endblock %}
+{% block javascripts %}
+    <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+    <!-- BEGIN CORE PLUGINS -->
+    <script src="{{ asset('easyadmin/global/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('easyadmin/global/js/jquery-migrate.min.js') }}"></script>
+    <!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+    <script src="{{ asset('easyadmin/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('easyadmin/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('easyadmin/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js') }}"></script>
+    <script src="{{ asset('easyadmin/plugins/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ asset('easyadmin/global/js/jquery.blockui.min.js') }}"></script>
+    <script src="{{ asset('easyadmin/global/js/jquery.cokie.min.js') }}"></script>
+    <script src="{{ asset('easyadmin/plugins/uniform/jquery.uniform.min.js') }}"></script>
+    <script src="{{ asset('easyadmin/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
+    <!-- END CORE PLUGINS -->
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{{ asset('easyadmin/global/js/metronic.js') }}"></script>
+    <script src="{{ asset('easyadmin/tema/layout/scripts/layout.js') }}"></script>
+    <script src="{{ asset('easyadmin/tema/layout/scripts/quick-sidebar.js') }}"></script>
+    <script src="{{ asset('easyadmin/tema/layout/scripts/demo.js') }}"></script>
+    <script src="{{ asset('easyadmin/inicio/index.js') }}"></script>
+    <!-- END PAGE LEVEL SCRIPTS -->
+    <script src="{{ asset('easyadmin/plugins/Alertify/alertify.js') }}"></script>
+    <script src="{{ asset('easyadmin/global/js/moment.js') }}"></script>
+    <script src="{{ asset('easyadmin/global/js/formatoTipos.js') }}"></script>
+    <script src="{{ asset('easyadmin/global/js/functionsAll.js') }}"></script>
+    <script>
+        alertify.confirm()
+            .setting({
+                'defaultFocus': 'cancel',
+                'labels': {ok: 'Aceptar', cancel: 'Cancelar'},
+                'modal': true
+            }).setHeader('<span class="glyphicon glyphicon-alert" style="font-size: 20px"></span>' +
+            '<h4 class="modal-title" style="display: inline-block; margin-left: 10px">Confirmación</h4>');
+        $('[data-toggle="tooltip"]').tooltip();
+        $(document).ready(function () {
+            Metronic.init(); // init metronic core componets
+            Layout.init(); // init layout
+            QuickSidebar.init(); // init quick sidebar
+            Demo.init(); // init demo features
+            Index.init();
+        });
+    </script>
+{% endblock %}
+</body>
+</html>
